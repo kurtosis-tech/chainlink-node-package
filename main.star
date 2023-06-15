@@ -150,7 +150,7 @@ ListenAddresses = ["0.0.0.0:8000"]
 [Keeper]
 TurnLookBack = 0
 """
-    secret_file_template = read_file("github.com/kurtosis-tech/chainlink-starlark/chainlink_resources/secret.toml.tmpl")
+    secret_file_template = read_file("github.com/kurtosis-tech/chainlink-node-package/chainlink_resources/secret.toml.tmpl")
     chainlink_config_files = plan.render_templates(
         name="chainlink-configuration",
         config={
