@@ -4,7 +4,7 @@ eth_network_package = import_module("github.com/kurtosis-tech/eth-network-packag
 postgres = import_module("github.com/kurtosis-tech/postgres-package/main.star")
 
 CHAINLINK_SERVICE_NAME = "chainlink"
-CHAINLINK_IMAGE = "smartcontract/chainlink:2.2.0"
+DEFAULT_CHAINLINK_IMAGE = "smartcontract/chainlink:1.13.1"
 CHAINLINK_PORT = 6688
 CHAINLINK_PORT_WAIT = "30s"
 CHAINLINK_P2PV2_PORT=8000
@@ -37,14 +37,15 @@ def run(plan, args):
     # Render the config.toml and secret.toml file necessary to start the Chainlink node
     chainlink_config_files = render_chainlink_config(plan, postgres_db_hostname, postgres_db.port.number, chain_name, chain_id, wss_url, http_url)
 
+    chainlink_image_name = args.get("node_image", DEFAULT_CHAINLINK_IMAGE)
+
     # Seed the database by creating a user programatically
     # In the normal workflow, the user is being created by the user running the
     # container everytime the container starts on a fresh database. Here, we
     # programatically insert the values into the DB to create the user automatically
-    seed_database(plan, chainlink_config_files)
+    seed_database(plan, chainlink_image_name, chainlink_config_files)
 
     # Finally we can start the Chainlink node and wait for it to be up and running
-    chainlink_image_name = CHAINLINK_IMAGE
     mounted_files = {
         "/chainlink/": chainlink_config_files,
     }
@@ -178,13 +179,13 @@ TurnLookBack = 0
     return chainlink_config_files
 
 
-def seed_database(plan, chainlink_config_files):
+def seed_database(plan, chainlink_node_image, chainlink_config_files):
     # This command fails, but at least it seeds the database with the right schema,
     # which is just what we need here
     plan.add_service(
         name="chainlink-seed",
         config=ServiceConfig(
-            image=CHAINLINK_IMAGE,
+            image=chainlink_node_image,
             files={
                 "/chainlink/": chainlink_config_files,
             },
