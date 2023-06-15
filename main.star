@@ -4,7 +4,7 @@ eth_network_package = import_module("github.com/kurtosis-tech/eth-network-packag
 postgres = import_module("github.com/kurtosis-tech/postgres-package/main.star")
 
 CHAINLINK_SERVICE_NAME = "chainlink"
-CHAINLINK_IMAGE = "smartcontract/chainlink:1.13.1"
+CHAINLINK_IMAGE = "smartcontract/chainlink:2.2.0"
 CHAINLINK_PORT = 6688
 CHAINLINK_PORT_WAIT = "30s"
 CHAINLINK_P2PV2_PORT=8000
