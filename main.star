@@ -201,7 +201,7 @@ def seed_database(plan, chainlink_config_files):
         )
     )
 
-    seed_user_sql = read_file("github.com/kurtosis-tech/chainlink-starlark/chainlink_resources/seed_users.sql")
+    seed_user_sql = read_file("github.com/kurtosis-tech/chainlink-node-package/chainlink_resources/seed_users.sql")
     psql_command = "psql --username {} -c \"{}\" {}".format(POSTGRES_USER, str(seed_user_sql), POSTGRES_DATABASE)
     create_user_recipe = ExecRecipe(command = ["sh", "-c", psql_command])
     plan.wait(
