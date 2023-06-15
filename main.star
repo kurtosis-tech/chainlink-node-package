@@ -55,7 +55,7 @@ def run(plan, args):
             image=chainlink_image_name,
             ports={
                 "http": PortSpec(number=CHAINLINK_PORT, wait=CHAINLINK_PORT_WAIT),
-                # "tcp": PortSpec(number=CHAINLINK_P2PV2_PORT, wait=None)
+                "p2p": PortSpec(number=CHAINLINK_P2PV2_PORT, wait=None)
             },
             files=mounted_files,
             entrypoint=[
