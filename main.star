@@ -83,7 +83,7 @@ def run(plan, args):
         target_value=200,
         timeout="1m",
     )
-
+    return chainlink_service
 
 def init_chain_connection(plan, args):
     chain_name = args["chain_name"]
